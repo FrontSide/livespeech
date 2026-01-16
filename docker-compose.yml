@@ -18,7 +18,8 @@ services:
       # Mount speech.json so it can be edited without rebuilding
       - ./backend/speech.json:/app/backend/speech.json
     restart: unless-stopped
-    networks: uptime-bridge
+    networks:
+      - uptime-bridge
 
 networks:
   uptime-bridge:
