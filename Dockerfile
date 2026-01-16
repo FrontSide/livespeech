@@ -31,12 +31,8 @@ WORKDIR /app
 COPY package.json ./
 COPY frontend/package.json ./frontend/
 
-# Copy package-lock.json from builder stage (where it was generated and validated)
-# This ensures we use the exact same dependency versions
-COPY --from=builder /app/frontend/package-lock.json ./frontend/package-lock.json 2>/dev/null || true
-
 # Install production dependencies only
-# Use npm install (not npm ci) to be more forgiving with lock file issues
+# Note: We use npm install (not npm ci) so package-lock.json is optional
 WORKDIR /app/frontend
 RUN npm install --production --no-audit --no-fund && \
     npm install express socket.io cors --no-audit --no-fund
