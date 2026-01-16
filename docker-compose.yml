@@ -15,8 +15,9 @@ services:
       - PRESENTER_PASSWORD=${PRESENTER_PASSWORD}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-}
     volumes:
-      # Mount speech.json so it can be edited without rebuilding
-      - ./backend/speech.json:/app/backend/speech.json
+      # Mount backend directory so speech.json can be edited without rebuilding
+      # This avoids issues when speech.json doesn't exist yet (Docker would create a directory)
+      - ./backend:/app/backend
     restart: unless-stopped
     networks:
       - uptime-bridge
