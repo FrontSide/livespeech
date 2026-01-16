@@ -1,0 +1,32 @@
+{
+  "name": "livespeech-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "dev:host": "HOST=0.0.0.0 node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js",
+    "start:host": "NODE_ENV=production HOST=0.0.0.0 node server.js",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "next": "^14.0.4",
+    "socket.io-client": "^4.6.1",
+    "socket.io": "^4.6.1",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "axios": "^1.6.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "typescript": "^5.3.3",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.0.4",
+    "cross-env": "^7.0.3"
+  }
+}

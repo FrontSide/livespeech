@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  livespeech:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: livespeech-dev
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - HOST=0.0.0.0
+      - PRESENTER_PASSWORD=${PRESENTER_PASSWORD}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-}
+    volumes:
+      # Mount source files for hot reload
+      - ./frontend:/app/frontend
+      - ./backend:/app/backend
+      - /app/frontend/node_modules
+      - /app/frontend/.next
+    restart: unless-stopped
+    command: npm run dev
