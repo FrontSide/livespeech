@@ -240,4 +240,7 @@ app.prepare().then(() => {
     console.log(`> Ready on http://${hostname === '0.0.0.0' ? 'localhost' : hostname}:${port}`);
     console.log(`> Backend API available at http://${hostname === '0.0.0.0' ? 'localhost' : hostname}:${port}/speech/api`);
   });
+}).catch((err) => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
 });
