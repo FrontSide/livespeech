@@ -141,6 +141,7 @@ export default function Home() {
             sectionIndex={currentSectionIndex}
             sectionText={getTextForLanguage(currentSectionText)}
             socket={socket}
+            selectedLanguage={selectedLanguage}
           />
         </main>
       </div>

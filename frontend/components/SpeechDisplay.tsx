@@ -7,9 +7,16 @@ interface SpeechDisplayProps {
   sectionIndex: number;
   sectionText: string;
   socket: Socket | null;
+  selectedLanguage?: string;
 }
 
-export default function SpeechDisplay({ text, isRendering, sectionIndex, sectionText, socket }: SpeechDisplayProps) {
+const PLACEHOLDER_TEXT = {
+  en: 'The speech will begin after Dinner at 8pm...',
+  fr: 'Le discours commencera après le dîner à 20h...',
+  de: 'Die Ansprache beginnt nach dem Abendessen um 20 Uhr...'
+};
+
+export default function SpeechDisplay({ text, isRendering, sectionIndex, sectionText, socket, selectedLanguage = 'en' }: SpeechDisplayProps) {
   const [displayedText, setDisplayedText] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const lastSectionIndexRef = useRef<number>(-1);
@@ -75,10 +82,12 @@ export default function SpeechDisplay({ text, isRendering, sectionIndex, section
     }
   }, [text, isRendering, sectionText, sectionIndex]);
 
+  const placeholderText = PLACEHOLDER_TEXT[selectedLanguage as keyof typeof PLACEHOLDER_TEXT] || PLACEHOLDER_TEXT.en;
+
   return (
     <div className="speech-display">
       <div className="speech-content">
-        {displayedText || (sectionIndex < 0 && <span className="empty-state">Waiting for speech to begin...</span>)}
+        {displayedText || (sectionIndex < 0 && <span className="empty-state">{placeholderText}</span>)}
         {isRendering && displayedText.length < sectionText.length && (
           <span className="cursor">|</span>
         )}
