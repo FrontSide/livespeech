@@ -28,9 +28,9 @@ export default function Presenter() {
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    // Connect to Socket.io - use same origin with /socket.io/ path
+    // Connect to Socket.io - use same origin with /speech/socket.io/ path
     const newSocket = io(API_URL, {
-      path: '/socket.io/',
+      path: '/speech/socket.io/',
       transports: ['websocket', 'polling'],
       timeout: 10000,
     });
@@ -46,7 +46,7 @@ export default function Presenter() {
     setSocket(newSocket);
 
     // Load initial state - presenter always uses English
-    axios.get(`${API_URL}/api/speech`, {
+    axios.get(`${API_URL}/speech/api/speech`, {
       params: { lang: 'en' },
       timeout: 10000,
     })
@@ -115,7 +115,7 @@ export default function Presenter() {
     setError(''); // Clear previous errors
     
     try {
-      const response = await axios.post(`${API_URL}/api/auth`, { password }, {
+      const response = await axios.post(`${API_URL}/speech/api/auth`, { password }, {
         timeout: 10000,
         headers: {
           'Content-Type': 'application/json'
@@ -147,7 +147,7 @@ export default function Presenter() {
 
   const loadCurrentState = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/speech`, {
+      const response = await axios.get(`${API_URL}/speech/api/speech`, {
         params: { lang: 'en' }, // Presenter always uses English
         timeout: 10000,
       });
@@ -159,7 +159,7 @@ export default function Presenter() {
 
   const handleNext = async () => {
     try {
-      await axios.post(`${API_URL}/api/next`, { password: storedPassword });
+      await axios.post(`${API_URL}/speech/api/next`, { password: storedPassword });
       setCurrentSectionIndex(prev => prev + 1);
     } catch (error: any) {
       alert(error.response?.data?.error || 'Failed to advance');
@@ -169,7 +169,7 @@ export default function Presenter() {
   const handleReset = async () => {
     if (confirm('Are you sure you want to reset the speech?')) {
       try {
-        await axios.post(`${API_URL}/api/reset`, { password: storedPassword });
+        await axios.post(`${API_URL}/speech/api/reset`, { password: storedPassword });
         setCurrentSectionIndex(-1);
       } catch (error: any) {
         alert(error.response?.data?.error || 'Failed to reset');

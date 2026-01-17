@@ -2,10 +2,10 @@
  * Backend API Configuration
  * 
  * Since frontend and backend run on the same port, we use relative URLs.
- * The API is available at /api on the same server.
- * Socket.io is available at /socket.io/ on the same server.
+ * The API is available at /speech/api on the same server.
+ * Socket.io is available at /speech/socket.io/ on the same server.
  * 
- * No configuration needed - this will automatically use the same host/port as the frontend.
+ * All endpoints are prefixed with /speech for reverse proxy compatibility.
  */
 export const API_URL = typeof window !== 'undefined' 
   ? window.location.origin // Use same origin in browser

@@ -79,7 +79,7 @@ app.prepare().then(() => {
       methods: ["GET", "POST"],
       credentials: true
     },
-    path: '/socket.io/'
+    path: '/speech/socket.io/'
   });
 
   expressApp.use(cors({
@@ -93,8 +93,8 @@ app.prepare().then(() => {
   const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
   const MAX_ATTEMPTS = 5;
 
-  // API Routes - mounted under /api
-  expressApp.post('/api/auth', (req, res) => {
+  // API Routes - mounted under /speech/api
+  expressApp.post('/speech/api/auth', (req, res) => {
     const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
     const now = Date.now();
     
@@ -133,7 +133,7 @@ app.prepare().then(() => {
     }
   });
 
-  expressApp.get('/api/speech', async (req, res) => {
+  expressApp.get('/speech/api/speech', async (req, res) => {
     try {
       const speech = await loadSpeech();
       // Validate language code - whitelist approach
@@ -154,7 +154,7 @@ app.prepare().then(() => {
     }
   });
 
-  expressApp.post('/api/next', async (req, res) => {
+  expressApp.post('/speech/api/next', async (req, res) => {
     const { password } = req.body;
     if (!password || typeof password !== 'string' || password !== PRESENTER_PASSWORD) {
       return res.status(401).json({ success: false, error: 'Unauthorized' });
@@ -190,7 +190,7 @@ app.prepare().then(() => {
     }
   });
 
-  expressApp.post('/api/reset', async (req, res) => {
+  expressApp.post('/speech/api/reset', async (req, res) => {
     const { password } = req.body;
     if (!password || typeof password !== 'string' || password !== PRESENTER_PASSWORD) {
       return res.status(401).json({ success: false, error: 'Unauthorized' });
@@ -238,6 +238,6 @@ app.prepare().then(() => {
   server.listen(port, hostname, (err) => {
     if (err) throw err;
     console.log(`> Ready on http://${hostname === '0.0.0.0' ? 'localhost' : hostname}:${port}`);
-    console.log(`> Backend API available at http://${hostname === '0.0.0.0' ? 'localhost' : hostname}:${port}/api`);
+    console.log(`> Backend API available at http://${hostname === '0.0.0.0' ? 'localhost' : hostname}:${port}/speech/api`);
   });
 });

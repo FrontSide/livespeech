@@ -22,9 +22,9 @@ export default function Home() {
   const [currentSectionText, setCurrentSectionText] = useState<{ en: string; fr: string; de: string } | string>('');
 
   useEffect(() => {
-    // Connect to Socket.io - use same origin with /socket.io/ path
+    // Connect to Socket.io - use same origin with /speech/socket.io/ path
     const newSocket = io(API_URL, {
-      path: '/socket.io/',
+      path: '/speech/socket.io/',
       transports: ['websocket', 'polling'],
       timeout: 10000,
     });
@@ -42,7 +42,7 @@ export default function Home() {
     // Load initial state with selected language
     const loadSpeech = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/speech`, {
+        const response = await axios.get(`${API_URL}/speech/api/speech`, {
           params: { lang: selectedLanguage },
           timeout: 10000,
         });
@@ -104,7 +104,7 @@ export default function Home() {
   const handleLanguageChange = (lang: string) => {
     setSelectedLanguage(lang);
     // Reload speech with new language
-    axios.get(`${API_URL}/api/speech`, {
+    axios.get(`${API_URL}/speech/api/speech`, {
       params: { lang },
       timeout: 10000,
     })

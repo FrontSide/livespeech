@@ -17,7 +17,8 @@ const io = socketIo(server, {
     origin: process.env.NODE_ENV === 'production' ? allowedOrigins : "*",
     methods: ["GET", "POST"],
     credentials: true
-  }
+  },
+  path: '/speech/socket.io/'
 });
 
 app.use(cors());
@@ -66,8 +67,8 @@ loadSpeech().then(() => {
   console.log('Speech content loaded');
 });
 
-// API Routes
-app.get('/api/speech', async (req, res) => {
+// API Routes - mounted under /speech
+app.get('/speech/api/speech', async (req, res) => {
   try {
     const speech = await loadSpeech();
     // Validate language code - whitelist approach
@@ -93,7 +94,7 @@ const authAttempts = new Map();
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
 const MAX_ATTEMPTS = 5;
 
-app.post('/api/auth', (req, res) => {
+app.post('/speech/api/auth', (req, res) => {
   const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
   const now = Date.now();
   
@@ -132,7 +133,7 @@ app.post('/api/auth', (req, res) => {
   }
 });
 
-app.post('/api/next', async (req, res) => {
+app.post('/speech/api/next', async (req, res) => {
   const { password } = req.body;
   if (!password || typeof password !== 'string' || password !== PRESENTER_PASSWORD) {
     return res.status(401).json({ success: false, error: 'Unauthorized' });
@@ -168,7 +169,7 @@ app.post('/api/next', async (req, res) => {
   }
 });
 
-app.post('/api/reset', async (req, res) => {
+app.post('/speech/api/reset', async (req, res) => {
   const { password } = req.body;
   if (!password || typeof password !== 'string' || password !== PRESENTER_PASSWORD) {
     return res.status(401).json({ success: false, error: 'Unauthorized' });
