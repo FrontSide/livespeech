@@ -229,6 +229,11 @@ app.prepare().then(() => {
     });
   });
 
+  // Redirect root to /speech
+  expressApp.get('/', (req, res) => {
+    res.redirect('/speech/');
+  });
+
   // Handle all other routes with Next.js
   expressApp.all('*', (req, res) => {
     const parsedUrl = parse(req.url, true);
